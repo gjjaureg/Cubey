@@ -1,4 +1,3 @@
-//Gabriel Jauregui
 class Smiley extends Phaser.Scene {
     constructor() {
         super("smileyScene");
@@ -22,9 +21,6 @@ class Smiley extends Phaser.Scene {
         
         this.counter = 0;
         this.smileType = 'Smile';
-
-        this.PKey = null;
-
     }
 
     // Use preload to load art and sound assets before the scene starts running.
@@ -39,7 +35,6 @@ class Smiley extends Phaser.Scene {
         this.load.image("smileDimple", "face_c.png");
         // hands
         this.load.image("handOpen", "hand_yellow_open.png");
-        this.load.image("handPeace", "hand_yellow_peace.png");
 
         // update instruction text
         document.getElementById('description').innerHTML = '<h2>Smiley.js</h2>'
@@ -57,45 +52,44 @@ class Smiley extends Phaser.Scene {
         
         // Create the sprite for the left and right hands
         my.sprite.leftOpenHand = this.add.sprite(this.leftHandX, this.lefthandY, "handOpen");
-        my.sprite.rightPeaceHand = this.add.sprite(this.rightHandX, this.rightHandY, "handPeace");
         my.sprite.leftOpenHand.flipX = true;   // flip sprite to have thumb on correct side
         my.sprite.rightOpenHand = this.add.sprite(this.rightHandX, this.rightHandY, "handOpen");
 
         // Since sprites are visible when created and we only want one smile to be shown
         // at a time, make the "dimple" smile not visible to start.
         my.sprite.dimple.visible = false;
-        my.sprite.rightPeaceHand.visible = false;
 
-        this.SKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-        let DKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        this.PKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
         this.MKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
-        //event input: dimple smile
-        DKey.on('down', (key, event) => {
-            my.sprite.smile.visible = false;
-            my.sprite.dimple.visible = true;
-        });
-        //event input: regular smile
-        SKey.on('down', (key, event) => {
-            my.sprite.smile.visible = true;
-            my.sprite.dimple.visible = false;
-        });
-        
     }
 
     update() {
-        let my = this.my;
-        if (this.PKey.isDown){     //pulling input: peace hand
-            my.sprite.rightOpenHand.visible = false;
-            my.sprite.rightPeaceHand.visible = true;
+        let my = this.my;    // create an alias to this.my for readability
+        
+        // Since update is called multiple times/second, this.counter acts like
+        // a timer, increasing once per clock tick
+        this.counter++;
+
+        if (this.counter % 120 == 0) {  // Do this once every 120 calls to update()
+            switch (this.smileType) {
+                case "Smile":
+                    // Currently a regular smile, so change to dimple smile
+                    this.smileType = "Dimple";
+                    my.sprite.smile.visible = false;
+                    my.sprite.dimple.visible = true;
+                    break;
+                case "Dimple":
+                    // Currently a dimple smile, so change to regular smile
+                    this.smileType = "Smile";
+                    my.sprite.dimple.visible = false;
+                    my.sprite.smile.visible = true;
+                    break;
+                default:
+                    console.log("Error: unknown smile");
+            }
         }
-        else {
-            my.sprite.rightOpenHand.visible = true;
-            my.sprite.rightPeaceHand.visible = false;
+        if (Phaser.Input.Keyboard.JustDown(this.MKey)){
+            this.scene.start('mouseSmiley');
         }
-        MKey.on('down', (key,event) => {
-            this.scene.start('mouseScene');
-        })
     }
 
 }
