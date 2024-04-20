@@ -69,25 +69,24 @@ class Smiley extends Phaser.Scene {
         this.SKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         let DKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.PKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
-        
+        this.MKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
         //event input: dimple smile
         DKey.on('down', (key, event) => {
             my.sprite.smile.visible = false;
             my.sprite.dimple.visible = true;
         });
         //event input: regular smile
-        let SKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         SKey.on('down', (key, event) => {
             my.sprite.smile.visible = true;
             my.sprite.dimple.visible = false;
         });
-
-    
+        if (this.MKey.justDown){
+            this.scene.start('mouseScene');
+        }
     }
 
     update() {
         let my = this.my;
-            
         if (this.PKey.isDown){     //pulling input: peace hand
             my.sprite.rightOpenHand.visible = false;
             my.sprite.rightPeaceHand.visible = true;
