@@ -66,8 +66,10 @@ class Smiley extends Phaser.Scene {
         my.sprite.dimple.visible = false;
         my.sprite.rightPeaceHand.visible = false;
 
-        this.SKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+        this.SKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         let DKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        this.PKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+        
         //event input: dimple smile
         DKey.on('down', (key, event) => {
             my.sprite.smile.visible = false;
@@ -79,12 +81,14 @@ class Smiley extends Phaser.Scene {
             my.sprite.smile.visible = true;
             my.sprite.dimple.visible = false;
         });
+
     
     }
 
     update() {
-        let my = this.my;    // create an alias to this.my for readability
-        if (this.SKey.isDown){     //pulling input: peace hand
+        let my = this.my;
+            
+        if (this.PKey.isDown){     //pulling input: peace hand
             my.sprite.rightOpenHand.visible = false;
             my.sprite.rightPeaceHand.visible = true;
         }
@@ -92,6 +96,7 @@ class Smiley extends Phaser.Scene {
             my.sprite.rightOpenHand.visible = true;
             my.sprite.rightPeaceHand.visible = false;
         }
+      
     }
 
 }
