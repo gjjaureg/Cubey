@@ -80,9 +80,7 @@ class Smiley extends Phaser.Scene {
             my.sprite.smile.visible = true;
             my.sprite.dimple.visible = false;
         });
-        if (this.MKey.justDown){
-            this.scene.start('mouseScene');
-        }
+        
     }
 
     update() {
@@ -95,7 +93,9 @@ class Smiley extends Phaser.Scene {
             my.sprite.rightOpenHand.visible = true;
             my.sprite.rightPeaceHand.visible = false;
         }
-      
+        MKey.on('down', (key,event) => {
+            this.scene.start('mouseScene');
+        })
     }
 
 }
